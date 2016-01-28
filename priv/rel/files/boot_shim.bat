@@ -25,6 +25,8 @@ if %errorLevel% == 0 (set is_admin="true") else (set is_admin="false")
 )
 @set rel_dir=%release_root_dir%\releases\%rel_vsn%
 
+if exist %release_root_dir%\boot_env.bat call %release_root_dir%\boot_env.bat
+
 if %is_admin% == "true" (
 call "%rel_dir%\%rel_name%.bat" %*
 ) else (

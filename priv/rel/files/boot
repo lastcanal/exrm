@@ -14,6 +14,8 @@ PIPE_DIR="$RELEASE_ROOT_DIR/tmp/erl_pipes/{{{PROJECT_NAME}}}/"
 ERTS_DIR=""
 ROOTDIR=""
 
+test -f $RELEASE_ROOT_DIR/boot_env && source $RELEASE_ROOT_DIR/boot_env
+
 GENERATED_CONFIG_DIR="${RELEASE_ROOT_DIR}/running-config"
 # Check for $RELEASE_MUTABLE_DIR
 if [ -n "${RELEASE_MUTABLE_DIR}" ]; then
