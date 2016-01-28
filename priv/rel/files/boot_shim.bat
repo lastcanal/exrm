@@ -10,6 +10,8 @@ if %errorLevel% == 0 (set is_admin="true") else (set is_admin="false")
 @set rel_name={{{PROJECT_NAME}}}
 @set erl_opts={{{ERL_OPTS}}}
 
+set PATH=%PATH%;{{{LD_LIBRARY_PATHS}}}
+
 :: Discover the release root directory from the directory of this script
 @set script_dir=%~dp0
 @for %%A in ("%script_dir%\..") do @(

@@ -46,6 +46,7 @@ defmodule Mix.Tasks.Release do
   @_ERTS_VSN    "{{{ERTS_VERSION}}}"
   @_ERL_OPTS    "{{{ERL_OPTS}}}"
   @_LIB_DIRS    "{{{LIB_DIRS}}}"
+  @_LD_PATHS    "{{{LD_LIBRARY_PATHS}}}"
 
   def run(args) do
     {:ok, _} = Logger.start_link
@@ -224,6 +225,7 @@ defmodule Mix.Tasks.Release do
         |> String.replace(@_VERSION, version)
         |> String.replace(@_ERTS_VSN, erts)
         |> String.replace(@_ERL_OPTS, erl_opts)
+        |> String.replace(@_LD_PATHS, ld_library_paths)
       File.write!(outfile, contents)
       # Make executable
       outfile |> chmod(0o700)
@@ -476,6 +478,20 @@ defmodule Mix.Tasks.Release do
     # Ensure destination base path exists
     path |> Path.dirname |> File.mkdir_p!
     path
+  end
+
+  defp ld_library_paths do
+    Path.wildcard("rel/*/lib/*/priv/*.{so,dll,lib}*")
+      |> Enum.map(&Path.dirname(&1))
+      |> Enum.uniq
+      |> Enum.join(ld_library_path_seperator)
+  end
+
+  defp ld_library_path_seperator do
+    case :os.type do
+      {:unix, _} -> ":"
+      {:win32, _} -> ";"
+    end
   end
 
 end
